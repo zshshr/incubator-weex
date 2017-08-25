@@ -28,12 +28,11 @@
 #import <pthread/pthread.h>
 #import <CoreText/CoreText.h>
 
-// WXText is a non-public is not permitted
-@interface WXTextView : UIView
+@interface WXText : UIView
 @property (nonatomic, strong) NSTextStorage *textStorage;
 @end
 
-@implementation WXTextView
+@implementation WXText
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -280,7 +279,7 @@ do {\
         useCoreText = [(WXTextComponent*)self.view.wx_component useCoreText];
     }
     if (!useCoreText) {
-        ((WXTextView *)self.view).textStorage = _textStorage;
+        ((WXText *)self.view).textStorage = _textStorage;
     }
     self.view.isAccessibilityElement = YES;
     
@@ -289,7 +288,7 @@ do {\
 
 - (UIView *)loadView
 {
-    return [[WXTextView alloc] init];
+    return [[WXText alloc] init];
 }
 
 - (BOOL)needsDrawRect
@@ -303,7 +302,7 @@ do {\
     if (_isCompositingChild) {
         [self drawTextWithContext:context bounds:rect padding:_padding view:nil];
     } else {
-        WXTextView *textView = (WXTextView *)_view;
+        WXText *textView = (WXText *)_view;
         [self drawTextWithContext:context bounds:rect padding:_padding view:textView];
     }
     
@@ -576,7 +575,7 @@ do {\
     [self.weexInstance.componentManager  _addUITask:^{
         if ([self isViewLoaded]) {
             if (![self useCoreText]) {
-                ((WXTextView *)self.view).textStorage = textStorage;
+                ((WXText *)self.view).textStorage = textStorage;
             }
             [self readyToRender]; // notify super component
             [self setNeedsDisplay];
@@ -608,7 +607,7 @@ do {\
     [self syncTextStorageForView];
 }
 
-- (void)drawTextWithContext:(CGContextRef)context bounds:(CGRect)bounds padding:(UIEdgeInsets)padding view:(WXTextView *)view
+- (void)drawTextWithContext:(CGContextRef)context bounds:(CGRect)bounds padding:(UIEdgeInsets)padding view:(WXText *)view
 {
     if (bounds.size.width <= 0 || bounds.size.height <= 0) {
         return;
