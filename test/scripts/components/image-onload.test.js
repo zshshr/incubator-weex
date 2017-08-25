@@ -23,29 +23,56 @@ var assert = require('chai').assert
 var wd = require('weex-wd')
 var path = require('path');
 var os = require('os');
-var util = require("../util.js");
+var util = require("./util.js");
 
-var goal = 'image-onload';
-var maxW = util.getGETActionWaitTimeMills();
-describe('weex '+goal+' test', function () {
+describe('weex mobile index', function () {
   this.timeout(util.getTimeoutMills());
   var driver = util.createDriver(wd);
 
   beforeEach(function () {
     return util.init(driver)
-      .get(util.getPage('/components/'+goal+'.js'))
+      .get(util.getPage('/index.js'))
   });
 
   afterEach(function () {
       return util.quit(driver);
   })
 
-  it('image onload success and failed', () => {
+
+  it('#1 Index', () => {
     return driver
-    .waitForElementByName(goal, maxW, 2000)
-    .waitForElementByName('360,388',maxW, 2000)
-    .waitForElementByName('failed',maxW, 2000)
-  });
+    .waitForElementById('title',util.getGETActionWaitTimeMills(),1000)
+    .text()
+    .then((text)=>{
+      assert.equal(text,'hello world.')
+    })
+  })
+
+  it('#2 Click Button', () => {
+    return driver
+    .waitForElementById('title',util.getGETActionWaitTimeMills(),1000)
+    .elementById('button')
+    .click()
+    .elementById('status')
+    .text()
+    .then((text)=>{
+      assert.equal(text,'btn click.')
+    })
+  })
+
+  it('#3 Input Blur', () => {
+    return driver
+    .waitForElementById('title',util.getGETActionWaitTimeMills(),1000)
+    .elementById('input')
+    .click()
+    .elementById('button2')
+    .click()
+    .elementById('status')
+    .text()
+    .then((text)=>{
+      assert.equal(text,'input blur.')
+    })
+  })
+
+  
 });
-
-

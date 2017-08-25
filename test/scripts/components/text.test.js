@@ -18,6 +18,7 @@ describe('weex text @ignore-ios', function () {
     return util.init(driver)
       .get(util.getPage('/components/text-layout.js'))
       .sleep(2000)
+      .waitForElementById("lines", util.getGETActionWaitTimeMills(), 1000)
       .getWindowSize()
       .then(size => {
         screenWidth = size.width
@@ -31,7 +32,6 @@ describe('weex text @ignore-ios', function () {
 
   it('#2 Text Content', () => {
     return driver
-      .waitForElementById("lines", util.getGETActionWaitTimeMills(), 1000)
       .elementById('text-only')
       .text()
       .then((text) => {
@@ -41,7 +41,6 @@ describe('weex text @ignore-ios', function () {
 
   it('#3 Line Height', () => {
     return driver
-      .waitForElementById("lines", util.getGETActionWaitTimeMills(), 1000)
       .elementById('lines')
       .getRect()
       .then(rect => {
@@ -53,7 +52,6 @@ describe('weex text @ignore-ios', function () {
 
   it('#4 Font Size', () => {
     return driver
-      .waitForElementById("lines", util.getGETActionWaitTimeMills(), 1000)
       .elementById('font')
       .getRect()
       .then(rect => {
@@ -65,7 +63,6 @@ describe('weex text @ignore-ios', function () {
 
   it('#5 Fixed-Size', () => {
     return driver
-      .waitForElementById("lines", util.getGETActionWaitTimeMills(), 1000)
       .elementById('fixed-size')
       .getRect()
       .then(rect => {
@@ -77,7 +74,6 @@ describe('weex text @ignore-ios', function () {
 
   it('#6 flex:1; align-Items: stretch; flex-direction:row', () => {
     return driver
-      .waitForElementById("lines", util.getGETActionWaitTimeMills(), 1000)
       .elementById('flexgrow-alignitems')
       .getRect()
       .then(rect => {
@@ -89,7 +85,6 @@ describe('weex text @ignore-ios', function () {
 
   it('#7 flex:1; align-Items: center; flex-direction:row', () => {
     return driver
-      .waitForElementById("lines", util.getGETActionWaitTimeMills(), 1000)
       .elementById('flexgrow')
       .getRect()
       .then(rect => {
