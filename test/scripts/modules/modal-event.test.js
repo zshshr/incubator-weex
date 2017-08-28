@@ -23,22 +23,15 @@ describe('weex '+goal+' test', function () {
   })
 
   it('#1 '+goal + ' event', () => {
+    //TODO ：截图比对
     return driver
-      .waitForElementByName('toast', timeout, 2000)
-      .click()
-      .sleep(2000)
-      .waitForElementByName('alert', timeout, 2000)
+      .waitForElementByName(goal, timeout, 2000)
+      .waitForElementByName('alertClick', timeout, 2000)
       .click()
       .sleep(1000)
       .dismissAlert()
-      .waitForElementByName('confirm', timeout, 2000)
+      .waitForElementByName(goal, timeout, 2000)
       .click()
-      .sleep(1000)
-      .dismissAlert()
-      .waitForElementByName('prompt', timeout, 2000)
-      .click()
-      .sleep(1000)
-      .dismissAlert()
-      .waitForElementByName('Prompt success', timeout, 2000)
+      .waitForElementByName('alert success', timeout, 2000) 
   })
 });
