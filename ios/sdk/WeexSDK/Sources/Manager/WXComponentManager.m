@@ -426,21 +426,22 @@ static css_node_t * rootNodeGetChild(void *context, int i)
     [self handleStyles:styles forComponent:ref isUpdateStyles:NO];
 }
 
-- (void)handleStyleOnMainThread:(NSDictionary*)styles forComponent:(WXComponent *)component isUpdateStyles:(BOOL)isUpdateStyles
+- (void)handleStyleOnMainThread:(NSDictionary*)styles forComponent:(NSString *)ref isUpdateStyles:(BOOL)isUpdateStyles
 {
     WXAssertParam(styles);
-    WXAssertParam(component);
-    WXAssertMainThread();
+    WXAssertParam(ref);
+    WXAssertComponentThread();
+    
+    WXComponent *component = [_indexDict objectForKey:ref];
+    WXAssertComponentExist(component);
     
     NSMutableDictionary *normalStyles = [NSMutableDictionary new];
     NSMutableArray *resetStyles = [NSMutableArray new];
     [self filterStyles:styles normalStyles:normalStyles resetStyles:resetStyles];
-    
-    [component _updateStylesOnMainThread:normalStyles resetStyles:resetStyles];
-    [component readyToRender];
-    
-    WXPerformBlockOnComponentThread(^{
-        [component _updateStylesOnComponentThread:normalStyles resetStyles:resetStyles isUpdateStyles:isUpdateStyles];
+    [component _updateStylesOnComponentThread:normalStyles resetStyles:resetStyles isUpdateStyles:isUpdateStyles];
+    WXPerformBlockOnMainThread(^{
+        [component _updateStylesOnMainThread:normalStyles resetStyles:resetStyles];
+        [component readyToRender];
     });
 }
 
