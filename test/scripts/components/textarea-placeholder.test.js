@@ -54,7 +54,7 @@ describe('weex '+goal+' test', function () {
           .clickScreenById('textarea')
           .waitForElementById('textarea',maxW,1000)
           .clear()
-          //TODO placeholder无法捕获
+          .waitForElementByName('Hello,I am placeHolder',maxW,1000)
           .waitForElementById('textarea',maxW,1000)
           .sendKeys('hello weex').sleep(1000)
           .waitForElementById('textarea',maxW,1000)
